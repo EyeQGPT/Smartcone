@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { generateChatCompletion } from "@/services/openaiservice";
+import { generateChatCompletion, saveFinalResponse } from "@/services/openaiservice";
 import { AppProps } from "next/app";
 import v3_css from "@/styles/v3css.module.css"
 
@@ -33,6 +33,8 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
   // State to toggle the visibility of the history log
   const [showHistory, setShowHistory] = useState(false);
 
+  const [content, setContent] = useState('');
+
   // Function to handle form submission and API interaction
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -49,6 +51,7 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
     try {
       const result = await generateChatCompletion(input);
       setResponse(result);
+      setContent(result)
 
       // Update history state with the new request and response
       setHistory((previousHistory) => [
@@ -112,7 +115,7 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
 
   // Function to download the current response only
   const handleDownloadCurrent = () => {
-    const blob = new Blob([response], { type: "text/plain" });
+    const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
@@ -129,6 +132,10 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
   const toggleHistory = () => {
     setShowHistory(!showHistory);
   };
+
+  async function sendToDB(question: string, response: string) {
+      await saveFinalResponse(question, response)
+  }
 
   return (
     <div className={`App ${isLightMode ? "light-mode" : "dark-mode"}`}>
@@ -172,8 +179,13 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
               </button> */}
 
               {/* Button to navigate to demo page */}
-              <button>
-                <a href="/simulate" style={{ textDecoration: "none", color: "inherit" }}>Send Response to DB</a>
+              <button onClick={() => {
+                const q : string = document.getElementById("QUESTION")!.innerText
+                const a : string = content
+                console.log(q)
+                if(q != "") {sendToDB(q,a)}
+              }}>
+                Send Response to DB
               </button>
             </div>
           </form>
@@ -185,13 +197,17 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
           {/* Display the current input submitted */}
           <div className="divInputText">
             <h2>Input:</h2>
-            <div><pre>{displayInput}</pre></div>
+            <div><pre id = "QUESTION">{displayInput}</pre></div>
           </div>
 
           {/* Display the API response */}
           <div className="divResponse">
             <h2>Response:</h2>
-            <pre>{response}</pre>
+            <pre id = "ANSWER" contentEditable={(response != "") ? "true" : "false"}
+            onInput={(event) => setContent((event.currentTarget.textContent == null) ? "" : event.currentTarget.textContent)}
+            onBlur={() => {}}
+            suppressContentEditableWarning={true}
+            >{response}</pre>
           </div>
 
           {/* Conditionally render the history section */}

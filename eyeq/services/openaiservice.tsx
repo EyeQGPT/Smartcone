@@ -44,3 +44,17 @@ const saveQuestionResponse = async (question: string, response: string) => {
         console.error('Error adding document: ', e);
     }
 };
+
+// Function to save question and response to Firestore
+export const saveFinalResponse = async (question: string, response: string) => {
+    try {
+        const docRef = await addDoc(collection(db, 'GPT_Outputs'), {
+            question,
+            response,
+            timestamp: new Date()
+        });
+        console.log('Document written with ID: ', docRef.id);
+    } catch (e) {
+        console.error('Error adding document: ', e);
+    }
+};
