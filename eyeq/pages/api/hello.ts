@@ -75,7 +75,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(405).send("Method Not Allowed");
   }
 }
-
-//
-const tryial = () => {}
-
