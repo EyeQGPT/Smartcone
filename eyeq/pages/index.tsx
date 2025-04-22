@@ -134,7 +134,9 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
   };
 
   async function sendToDB(question: string, response: string) {
+      setLoading(true)
       await saveFinalResponse(question, response)
+      setLoading(false)
   }
 
   return (
@@ -178,7 +180,7 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
                 {showHistory ? "Hide History Log" : "Show History Log"}
               </button> */}
 
-              {/* Button to navigate to demo page */}
+              {/* Button to Send to DB */}
               <button onClick={() => {
                 const q : string = document.getElementById("QUESTION")!.innerText
                 const a : string = content
