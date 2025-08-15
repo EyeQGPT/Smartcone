@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { generateChatCompletion, saveFinalResponse } from "@/services/openaiservice";
+import { generateChatCompletion, saveFinalResponse , getAllEntries } from "@/services/openaiservice";
 import { AppProps } from "next/app";
 import v3_css from "@/styles/v3css.module.css"
 
@@ -139,6 +139,7 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
       setLoading(false)
   }
 
+
   return (
     <div className={`App ${isLightMode ? "light-mode" : "dark-mode"}`}>
       {/* Main container for the input and output sections */}
@@ -188,6 +189,12 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
                 if(q != "") {sendToDB(q,a)}
               }}>
                 Send Response to DB
+              </button>
+
+              <button onClick={() => {
+                getAllEntries()
+              }}>
+                Download JsonL
               </button>
             </div>
           </form>
