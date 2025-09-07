@@ -66,7 +66,7 @@ export async function getAllEntries() {
   try {
     const systemMessageContent = "You are a helpful AI assistant for fitness training.";
 
-    const snapshot = await getDocs(collection(db, "trainingPairs"));
+    const snapshot = await getDocs(collection(db, "GPT_Outputs"));
     const entries = snapshot.docs.map(doc => doc.data());
 
     const jsonLStrings = entries.map(element => {
