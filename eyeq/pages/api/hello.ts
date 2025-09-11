@@ -47,12 +47,12 @@ function formatResponse(text: string) {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log('Request Method:', req.method);  // Log the request method
   if (req.method === 'POST') {
-    const { input } = req.body;
+    const { input: input, model: model } = req.body;
     console.log(input);
 
     try {
       const response = await openai.chat.completions.create({
-        model: "ft:gpt-4o-mini-2024-07-18:football-eyeq:eyeqv1-1:A8c3at1q",
+        model: model,
         messages: [
           { role: "system", content: SYSMESG },
           { role: "user", content: input },
