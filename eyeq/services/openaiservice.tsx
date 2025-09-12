@@ -103,7 +103,7 @@ export const saveFinalResponse = async (question: string, response: string) => {
  */
 export async function getAllEntries() {
   try {
-    const systemMessageContent = "You are a helpful AI assistant for fitness training.";
+    const systemMessageContent: string = sysm;
 
     const snapshot = await getDocs(collection(db, "GPT_Outputs"));
     const entries = snapshot.docs.map(doc => doc.data());
