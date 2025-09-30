@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           { role: "user", content: input },
         ],
         max_tokens: 5000,
-        temperature: 0.7,
+        temperature: 0.7,    
       });
 
       const formattedMessage = formatResponse(response.choices[0].message.content || ":-)");

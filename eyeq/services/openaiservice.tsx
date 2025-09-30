@@ -39,7 +39,7 @@ export const generateChatCompletion = async (input: string) => {
                 input: input,
                 model: modelName, // This key ('model') must match what the API expects
             }),
-            signal: AbortSignal.timeout(60000), // 60-second timeout
+            signal: AbortSignal.timeout(5 * 60000), // 60-second timeout
         });
 
         if (!response.ok) {
