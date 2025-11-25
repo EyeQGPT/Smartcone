@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { generateChatCompletion, saveFinalResponse , getAllEntries } from "@/services/openaiservice";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { generateChatCompletion, streamChatCompletion, saveFinalResponse , getAllEntries } from "@/services/openaiservice";
 import { AppProps } from "next/app";
 import v3_css from "@/styles/v3css.module.css"
 
@@ -71,6 +73,59 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
     setInput("");
   };
 
+  const handleSubmitStream = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+
+    if (!input.trim()) {
+      return;
+    }
+
+    setLoading(true);
+    setResponse(""); // Clear previous response for the new stream
+    setContent(""); // Clear content state too
+    setDisplayInput(input); // Set input immediately
+
+    // Variable to accumulate the full response for history
+    let fullResponse = ""; 
+
+    // Callback function to handle incoming data chunks
+    const handleChunk = (chunk: string) => {
+        setResponse((prev) => {
+            // Update the response state with the new chunk
+            const newResponse = prev + chunk; 
+            fullResponse = newResponse; // Keep track of the full response
+            setContent(newResponse); // Update content state
+            return newResponse;
+        });
+    };
+
+    try {
+        // Call the new streaming function
+        const finalResponse = await streamChatCompletion(input, handleChunk);
+        
+        // After the stream is complete, update history
+        setHistory((previousHistory) => [
+            ...previousHistory,
+            // Use the final accumulated response
+            { input: input, output: finalResponse }, 
+        ]);
+
+        // finalResponse should be the same as fullResponse
+        setResponse(finalResponse); 
+        setContent(finalResponse);
+
+
+    } catch (error) {
+      console.error('Streaming error:', error);
+      setResponse("Cannot get a response, try turning on backend or check console for stream error.");
+      setContent("Cannot get a response, try turning on backend or check console for stream error.");
+    } finally {
+      setLoading(false);
+    }
+
+    setInput("");
+};
+
   // Handle Enter key press to submit form without shift key adding a new line
   const handleKeyPress = (e: { key?: any; shiftKey?: any; preventDefault: any; }) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -80,7 +135,7 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
       if (!input.trim()) {
         return;
       }
-      handleSubmit(e);
+      handleSubmitStream(e);
     }
   };
 
@@ -152,7 +207,7 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
 
         {/* Input section where user can submit their query */}
         <div className="input-container">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmitStream}>
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -212,11 +267,18 @@ function App({ isLightMode, toggleTheme } : CustomAppProps) {
           {/* Display the API response */}
           <div className="divResponse">
             <h2>Response:</h2>
-            <pre id = "ANSWER" contentEditable={(response != "") ? "true" : "false"}
-            onInput={(event) => setContent((event.currentTarget.textContent == null) ? "" : event.currentTarget.textContent)}
-            onBlur={() => {}}
-            suppressContentEditableWarning={true}
-            >{response}</pre>
+            <div 
+              id = "ANSWER" 
+              contentEditable={(response != "") ? "true" : "false"}
+              onInput={(event) => setContent((event.currentTarget.textContent == null) ? "" : event.currentTarget.textContent)}
+              onBlur={() => {}}
+              suppressContentEditableWarning={true}
+              className="markdown-rendered-output" // Add a class for styling
+            >
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {content} 
+                </ReactMarkdown>
+            </div>
           </div>
 
           {/* Conditionally render the history section */}
