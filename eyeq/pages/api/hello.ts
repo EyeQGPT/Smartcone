@@ -5,6 +5,11 @@ import dotenv from 'dotenv';
 
 import { sysm } from './sysmes';
 
+// Increase Vercel timeout to 60 seconds (max for Hobby plan)
+export const config = {
+  maxDuration: 60,
+};
+
 
 // Load environment variables
 // dotenv.config({ path: path.join("files/.env")});
@@ -57,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           { role: "system", content: SYSMESG },
           { role: "user", content: input },
         ],
-        max_tokens: 5000,
+        max_tokens: 2500,
         temperature: 0.7,    
       });
 
