@@ -62,8 +62,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           { role: "system", content: SYSMESG },
           { role: "user", content: input },
         ],
-        max_tokens: 2500,
-        temperature: 0.7,    
+        max_tokens: 1600,
+        temperature: 0.4,    
       });
 
       const formattedMessage = formatResponse(response.choices[0].message.content || ":-)");
