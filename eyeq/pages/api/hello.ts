@@ -3,7 +3,7 @@ import { OpenAI } from 'openai';
 import path from 'path';
 import dotenv from 'dotenv';
 
-import { sysm } from './sysmes';
+import { readSystemMessageV2 } from '@/lib/systemMessage';
 
 // Increase Vercel timeout to 60 seconds (max for Hobby plan)
 export const config = {
@@ -15,11 +15,8 @@ export const config = {
 // dotenv.config({ path: path.join("files/.env")});
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
-// Read the system message from the text file
-const data = sysm;
-
 // Constant string for the system message
-const SYSMESG = data;
+const SYSMESG = readSystemMessageV2();
 
 // Initialize OpenAI client
 const openai = new OpenAI({

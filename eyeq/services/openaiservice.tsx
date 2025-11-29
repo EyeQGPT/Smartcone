@@ -1,5 +1,3 @@
-import OpenAI from "openai";
-import { sysm } from "@/pages/api/sysmes";
 import { db } from './firebaseConfig';
 import { collection, addDoc , getDocs } from 'firebase/firestore';
 
@@ -76,6 +74,17 @@ const saveQuestionResponse = async (question: string, response: string) => {
     }
 };
 
+async function fetchSystemMessage(): Promise<string> {
+    const response = await fetch('/api/system-message');
+
+    if (!response.ok) {
+        throw new Error(`Failed to load system message: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.systemMessage as string;
+}
+
 /**
  * Saves the final approved response to the 'GPT_Outputs' collection for fine-tuning.
  * @param question The user's question.
@@ -103,7 +112,7 @@ export const saveFinalResponse = async (question: string, response: string) => {
  */
 export async function getAllEntries() {
   try {
-    const systemMessageContent: string = sysm;
+    const systemMessageContent: string = await fetchSystemMessage();
 
     const snapshot = await getDocs(collection(db, "GPT_Outputs"));
     const entries = snapshot.docs.map(doc => doc.data());

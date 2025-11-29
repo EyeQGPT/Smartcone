@@ -1,0 +1,15 @@
+{
+  "version": "v2",
+  "system_message": "config/system_message_v2.txt",
+  "training_inputs_dir": "data/v2/input_plastic",
+  "training_outputs_dir": "data/v2/output_eyeq",
+  "holdout_inputs_dir": "data/v2/holdout_input_plastic",
+  "training_examples": [
+    "Exercise 01",
+    "Exercise 02",
+    "Exercise 03"
+  ],
+  "holdout_examples": [
+    "Exercise 04"
+  ]
+}
