@@ -49,7 +49,7 @@ function findMatchingOutput(baseId) {
 function buildUserPrompt(inputText) {
   return [
     'Convert the following plastic-cone exercise into an EyeQ smart cone exercise.',
-    'Use this structure: Title, Original core idea, EyeQ setup, EyeQ rules, Coaching focus, Why this respects and improves the original, Progressions.',
+    'Use this structure: Title, Setup, How it plays, Coaching focus, Progressions.',
     'Plastic-cone exercise:',
     inputText.trim()
   ].join('\n');

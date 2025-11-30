@@ -93,8 +93,10 @@ async function fetchSystemMessage(): Promise<string> {
 export const saveFinalResponse = async (question: string, response: string) => {
     try {
         const docRef = await addDoc(collection(db, 'GPT_Outputs'), {
-            question,
-            response,
+            inputPlastic: question,
+            outputEyeQ: response,
+            question, // legacy mirror for older readers
+            response, // legacy mirror for older readers
             timestamp: new Date()
         });
         console.log('Final output document written with ID: ', docRef.id);
@@ -104,6 +106,15 @@ export const saveFinalResponse = async (question: string, response: string) => {
         console.error('Error adding final output document: ', e);
     }
 };
+
+function buildUserPrompt(inputText: string): string {
+  return [
+    'Convert the following plastic-cone exercise into an EyeQ smart cone exercise.',
+    'Use this structure: Title, Setup, How it plays, Coaching focus, Progressions.',
+    'Plastic-cone exercise:',
+    inputText.trim(),
+  ].join('\n');
+}
 
 /**
  * Fetches all entries from the 'GPT_Outputs' collection, formats them
@@ -115,14 +126,22 @@ export async function getAllEntries() {
     const systemMessageContent: string = await fetchSystemMessage();
 
     const snapshot = await getDocs(collection(db, "GPT_Outputs"));
-    const entries = snapshot.docs.map(doc => doc.data());
+    const entries = snapshot.docs
+      .map((doc) => doc.data())
+      .map((element) => {
+        const inputPlastic = (element.inputPlastic ?? element.inputPlasticText ?? element.question ?? '').trim();
+        const outputEyeQ = (element.outputEyeQ ?? element.outputEyeQText ?? element.response ?? '').trim();
 
-    const jsonLStrings = entries.map(element => {
+        return inputPlastic && outputEyeQ ? { inputPlastic, outputEyeQ } : null;
+      })
+      .filter(Boolean) as { inputPlastic: string; outputEyeQ: string }[];
+
+    const jsonLStrings = entries.map(({ inputPlastic, outputEyeQ }) => {
       const jsonObject = {
         messages: [
-          { "role": "system", "content": systemMessageContent },
-          { "role": "user", "content": element.question },
-          { "role": "assistant", "content": element.response }
+          { role: 'system', content: systemMessageContent },
+          { role: 'user', content: buildUserPrompt(inputPlastic) },
+          { role: 'assistant', content: outputEyeQ }
         ]
       };
       return JSON.stringify(jsonObject);

@@ -1,7 +1,5 @@
 Title: Triangle Check and Play — EyeQ Scan Loop
-Original core idea: Quick passing around a triangle that rewards checking shoulders before receiving so the next pass is already pictured.
-EyeQ setup: Three EyeQ Smart Cones form an 8m triangle. A ball starts at Cone A; players rotate clockwise. Lights run independently and only signal the next target.
-EyeQ rules (how it plays): Player at A passes to B. As the ball travels, Cone B flashes a color to show the next option: red = play to C, green = bounce back to A. Receiver scans before first touch, adjusts body to the signal, and plays accordingly before rotating. Lights keep cycling so every pass demands a scan.
-Coaching focus (key cues): Scan as the ball leaves the passer; open hips toward both options; firm first touch out of feet; pass with tempo that keeps the triangle alive.
-Why this respects and improves the original: Still a three-point passing loop, but the light forces the receiver to truly check for information instead of repeating a memorized pattern. Decision-making happens on every ball.
+Setup: Three EyeQ Smart Cones form an 8m triangle. A ball starts at Cone A; players rotate clockwise. Lights run independently and only signal the next target.
+How it plays: Player at A passes to B. As the ball travels, Cone B flashes a color to show the next option: red = play to C, green = bounce back to A. Receiver scans before first touch, adjusts body to the signal, and plays accordingly before rotating. Lights keep cycling so every pass demands a scan.
+Coaching focus: Scan as the ball leaves the passer; open hips toward both options; firm first touch out of feet; pass with tempo that keeps the triangle alive.
 Progressions: Add a passive defender at each receiving point; shrink the triangle to speed up reactions; require two-touch play only when the light shows red.
