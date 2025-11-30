@@ -93,19 +93,33 @@ async function fetchSystemMessage(): Promise<string> {
 export const saveFinalResponse = async (question: string, response: string) => {
     try {
         const docRef = await addDoc(collection(db, 'GPT_Outputs'), {
-            inputPlastic: question,
-            outputEyeQ: response,
-            question, // legacy mirror for older readers
-            response, // legacy mirror for older readers
+            inputPlastic: question.trim(),
+            outputEyeQ: sanitizeExerciseText(response),
             timestamp: new Date()
         });
         console.log('Final output document written with ID: ', docRef.id);
-        // 2. Replaced alert() with a console log for a better user experience.
         console.log("Response sent successfully to Database");
     } catch (e) {
         console.error('Error adding final output document: ', e);
     }
 };
+
+function sanitizeExerciseText(text: string): string {
+  const trimmed = text.trim();
+
+  const jsonHeadingIndex = trimmed.search(/^###\s*JSON/im);
+  if (jsonHeadingIndex !== -1) {
+    return trimmed.slice(0, jsonHeadingIndex).trim();
+  }
+
+  const patternIndex = trimmed.indexOf('"pattern_');
+  if (patternIndex !== -1) {
+    const firstBrace = trimmed.lastIndexOf('{', patternIndex);
+    return (firstBrace !== -1 ? trimmed.slice(0, firstBrace) : trimmed.slice(0, patternIndex)).trim();
+  }
+
+  return trimmed;
+}
 
 function buildUserPrompt(inputText: string): string {
   return [
@@ -130,7 +144,8 @@ export async function getAllEntries() {
       .map((doc) => doc.data())
       .map((element) => {
         const inputPlastic = (element.inputPlastic ?? element.inputPlasticText ?? element.question ?? '').trim();
-        const outputEyeQ = (element.outputEyeQ ?? element.outputEyeQText ?? element.response ?? '').trim();
+        const outputEyeQRaw = (element.outputEyeQ ?? element.outputEyeQText ?? element.response ?? '').trim();
+        const outputEyeQ = sanitizeExerciseText(outputEyeQRaw);
 
         return inputPlastic && outputEyeQ ? { inputPlastic, outputEyeQ } : null;
       })
