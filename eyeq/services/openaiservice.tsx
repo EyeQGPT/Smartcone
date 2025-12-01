@@ -1,5 +1,3 @@
-import OpenAI from "openai";
-import { sysm } from "@/pages/api/sysmes";
 import { db } from './firebaseConfig';
 import { collection, addDoc , getDocs } from 'firebase/firestore';
 
@@ -76,6 +74,17 @@ const saveQuestionResponse = async (question: string, response: string) => {
     }
 };
 
+async function fetchSystemMessage(): Promise<string> {
+    const response = await fetch('/api/system-message');
+
+    if (!response.ok) {
+        throw new Error(`Failed to load system message: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.systemMessage as string;
+}
+
 /**
  * Saves the final approved response to the 'GPT_Outputs' collection for fine-tuning.
  * @param question The user's question.
@@ -84,17 +93,42 @@ const saveQuestionResponse = async (question: string, response: string) => {
 export const saveFinalResponse = async (question: string, response: string) => {
     try {
         const docRef = await addDoc(collection(db, 'GPT_Outputs'), {
-            question,
-            response,
+            inputPlastic: question.trim(),
+            outputEyeQ: sanitizeExerciseText(response),
             timestamp: new Date()
         });
         console.log('Final output document written with ID: ', docRef.id);
-        // 2. Replaced alert() with a console log for a better user experience.
         console.log("Response sent successfully to Database");
     } catch (e) {
         console.error('Error adding final output document: ', e);
     }
 };
+
+function sanitizeExerciseText(text: string): string {
+  const trimmed = text.trim();
+
+  const jsonHeadingIndex = trimmed.search(/^###\s*JSON/im);
+  if (jsonHeadingIndex !== -1) {
+    return trimmed.slice(0, jsonHeadingIndex).trim();
+  }
+
+  const patternIndex = trimmed.indexOf('"pattern_');
+  if (patternIndex !== -1) {
+    const firstBrace = trimmed.lastIndexOf('{', patternIndex);
+    return (firstBrace !== -1 ? trimmed.slice(0, firstBrace) : trimmed.slice(0, patternIndex)).trim();
+  }
+
+  return trimmed;
+}
+
+function buildUserPrompt(inputText: string): string {
+  return [
+    'Convert the following plastic-cone exercise into an EyeQ smart cone exercise.',
+    'Use this structure: Title, Setup, How it plays, Coaching focus, Progressions.',
+    'Plastic-cone exercise:',
+    inputText.trim(),
+  ].join('\n');
+}
 
 /**
  * Fetches all entries from the 'GPT_Outputs' collection, formats them
@@ -103,17 +137,26 @@ export const saveFinalResponse = async (question: string, response: string) => {
  */
 export async function getAllEntries() {
   try {
-    const systemMessageContent: string = sysm;
+    const systemMessageContent: string = await fetchSystemMessage();
 
     const snapshot = await getDocs(collection(db, "GPT_Outputs"));
-    const entries = snapshot.docs.map(doc => doc.data());
+    const entries = snapshot.docs
+      .map((doc) => doc.data())
+      .map((element) => {
+        const inputPlastic = (element.inputPlastic ?? element.inputPlasticText ?? element.question ?? '').trim();
+        const outputEyeQRaw = (element.outputEyeQ ?? element.outputEyeQText ?? element.response ?? '').trim();
+        const outputEyeQ = sanitizeExerciseText(outputEyeQRaw);
 
-    const jsonLStrings = entries.map(element => {
+        return inputPlastic && outputEyeQ ? { inputPlastic, outputEyeQ } : null;
+      })
+      .filter(Boolean) as { inputPlastic: string; outputEyeQ: string }[];
+
+    const jsonLStrings = entries.map(({ inputPlastic, outputEyeQ }) => {
       const jsonObject = {
         messages: [
-          { "role": "system", "content": systemMessageContent },
-          { "role": "user", "content": element.question },
-          { "role": "assistant", "content": element.response }
+          { role: 'system', content: systemMessageContent },
+          { role: 'user', content: buildUserPrompt(inputPlastic) },
+          { role: 'assistant', content: outputEyeQ }
         ]
       };
       return JSON.stringify(jsonObject);
