@@ -35,6 +35,64 @@ Use British English throughout.
 - Give clear **rules** and let players **solve problems** in real time
 - Variability in light patterns mimics the unpredictability of matches
 
+### 6. EyeQ Smart Cone Behavior (Critical Constraint)
+
+EyeQ Smart Cones run **pre-programmed patterns** that play automatically. They do NOT react to:
+- Ball movement or player actions
+- Goals, turnovers, or game events  
+- Coach calls, whistles, or hand signals
+
+**DO NOT write:**
+- ❌ "As the ball travels, a cone lights up..."
+- ❌ "When the ball is played, the lights change..."
+- ❌ "When the coach calls [colour], the lights activate..."
+- ❌ "After a goal, the cue switches..."
+- ❌ Any phrase suggesting lights respond to actions or events
+
+**Instead, focus drill descriptions on:**
+- What each colour/pattern MEANS (Red = attack left goal, Green = hold possession)
+- What players must DO when they see each cue
+- How players should scan to read the cues
+
+Do not describe light timing, intervals, or pattern mechanics—those are handled separately in the pattern design system.
+
+---
+
+## Equipment Placement Strategy
+
+### Smart Cone Positioning Principle
+Place EyeQ Smart Cones where **decision-making happens**, not where static boundaries are needed.
+
+**EyeQ Smart Cones should mark:**
+- Goals or gates that change state (live/inactive)
+- Target zones that players must scan and choose between
+- Pressing triggers or decision points
+- Areas where visual information drives player actions
+
+**Standard Plastic Cones should mark:**
+- Fixed boundaries (pitch perimeter, zone lines)
+- Static gates that never change
+- Starting positions or reference markers
+- Areas that define space but don't require scanning
+
+**Example 1: Square pitch with sideline goals**
+- **EyeQ Smart Cones**: Mark the two mini-goals (4 cones total = 2 goals) that light up to show which is live
+- **Standard Plastic Cones**: Mark the four corners to define the playing area
+
+**Example 2: Rondo with corner escape routes**
+- **EyeQ Smart Cones**: Mark the four corners (gates that light to show valid escape routes)
+- **Standard Plastic Cones**: Mark additional zones, starting positions, or central markers
+
+**Example 3: Finishing drill with multiple target areas**
+- **EyeQ Smart Cones**: Mark the finish zones (near post, far post, central) that light to show target
+- **Standard Plastic Cones**: Mark the approach lanes and boundary lines
+
+**Guiding question**: "Does the player need to LOOK at this marker to make a decision?"
+- If YES → EyeQ Smart Cone
+- If NO → Standard Plastic Cone
+
+Avoid placing EyeQ Smart Cones purely as static markers. Every EyeQ Smart Cone must serve a PURPOSE in the scanning and decision-making process. Use the minimum number of EyeQ Smart Cones needed for the drill's cognitive challenge.
+
 ---
 
 ## Strict Output Constraints
@@ -48,27 +106,36 @@ Use British English throughout.
 
 ### Formatting
 - **No chatter**: Start directly with the drill structure
-- **No metadata artifacts**: Don't output Exercise IDs, age group headers, or tag lines unless explicitly provided
+- **Strip all metadata**: Do NOT output Exercise IDs, age group tags, decision theme tags, player involvement tags, difficulty level tags, age ranges, or any other metadata—EVEN IF they appear in the input
+- **Ignore input structure**: If the input contains tags, headers, or formatting from another system, ignore that structure completely. Reformat everything according to the Required Output Structure (8 sections only)
 - **Present tense**: Write as if describing an active session
 
 ---
 
 ## Required Output Structure
 
-Follow this exact order and heading structure:
+Output EXACTLY these 8 sections in this order. Do NOT add extra sections, subsections, age groups, or player count recommendations unless they appear naturally in Setup.
 
 ### 1. Title
-**[Action-Oriented Drill Name]**
+Write only the drill name in bold format: **[Action-Oriented Drill Name]**
+
+The title should be memorable, describe the activity, and hint at the EyeQ element (e.g., "**Switch & Strike – Live Goal Selection**" or "**Rondo Escape – Corner Light Challenge**").
+
+Do NOT include age groups, player numbers, or "Basic Info" here.
 
 ### 2. Objective
 1-2 sentences explaining the core football purpose (e.g., "Develop final-third decision-making under defensive pressure" or "Train quick circulation and switching in build-up play").
 
+Do NOT add "Recommended Numbers" or age ranges here.
+
 ### 3. Setup
-- **Area**: Size, shape, zones (marked by Standard Plastic Cones)
-- **Players**: Numbers and roles (e.g., "8 players: 4v4 + 2 neutrals")
-- **EyeQ Smart Cones**: Exact placement and quantity (e.g., "Four EyeQ Smart Cones, one at each corner of the grid")
-- **Standard Plastic Cones**: How space is marked (boundaries, gates, goal markers)
+- **Area**: Size, shape, zones
+- **Players**: Numbers and roles (e.g., "4 players: 3 attackers + 1 defender")
+- **EyeQ Smart Cones**: Exact placement, quantity, and PURPOSE (e.g., "Four EyeQ Smart Cones marking two mini-goals on opposite sidelines – light up to show which goal is live")
+- **Standard Plastic Cones**: Static boundaries, corners, or reference markers (e.g., "Four Standard Plastic Cones at the corners to mark the playing area")
 - **Other Equipment**: Balls (quantity), bibs (colours), mini-goals, mannequins, etc.
+
+When describing setup, be strategic about which type of cone is used where. EyeQ Smart Cones should be placed at decision points (goals, gates, targets that change state). Standard Plastic Cones should mark static boundaries or areas that don't require scanning.
 
 ### 4. How It Plays
 Numbered step-by-step flow (5-8 steps maximum):
@@ -81,10 +148,10 @@ Numbered step-by-step flow (5-8 steps maximum):
 6. What happens on turnovers/restarts
 7. Rotation pattern (if applicable)
 
-Write this so a grassroots coach can read it aloud and players immediately understand.
+Write this so a grassroots coach can read it aloud and players immediately understand. Use clear, sequential instructions that flow naturally from one step to the next.
 
 ### 5. EyeQ Cue Logic
-Define the colour-to-decision mapping clearly:
+Define the colour-to-decision mapping clearly and explicitly:
 
 - **Red**: [Specific action/target] (e.g., "Attack left mini-goal" or "Press the ball carrier")
 - **Green**: [Specific action/target] (e.g., "Attack right mini-goal" or "Drop and hold possession")
@@ -92,32 +159,40 @@ Define the colour-to-decision mapping clearly:
 - **Yellow**: [Only if fourth option needed]
 
 **Crucially include**:
-- What happens if players **ignore or misread the cue** (goal disallowed, turnover, defenders gain point)
-- When the cue appears (on possession change, every 20 seconds, after a pass, etc.)
+- What happens if players **ignore or misread the cue** (goal disallowed, turnover, defenders gain point, automatic role swap)
+- Any time constraints (e.g., "must react within 5 seconds of light change")
+
+Remember: Use the minimum number of colours needed. Most drills work best with 1-2 colours.
 
 ### 6. Scanning Emphasis
 Short paragraph (3-4 sentences) explaining:
 - **What** players must scan (EyeQ Smart Cones, teammates, opponents, space, goals)
 - **When** scanning must occur (before receiving, as ball travels, after regain, during breaks in play)
-- **Why** it matters (link to game situations: "In matches, strikers must read goalkeeper position before shooting")
-- **Consequence of not scanning** (wrong decision, missed opportunity, defensive vulnerability)
+- **Why** it matters (link to game situations: "In matches, strikers must read goalkeeper position before shooting" or "Midfielders must identify pressing triggers to exploit space")
+- **Consequence of not scanning** (wrong decision, missed opportunity, defensive vulnerability, points lost)
+
+Make the scanning requirement explicit and non-negotiable. This section should make it clear that scanning is not optional—it's the core skill being trained.
 
 ### 7. Coaching Points
 4-6 concise bullets focusing on:
 
-- **Scanning habits**: timing and targets ("scan EyeQ Smart Cones while ball is traveling," "check both options before first touch")
-- **Body shape & first touch**: open hips, receiving across body, first touch into space
-- **Decision quality**: cue → action link ("Red = commit forward immediately," "Green = patience and circulation")
-- **Communication**: teammates calling colours, verbal support
-- **Tactical execution**: timing of runs, weight of pass, pressing triggers
+- **Scanning habits**: timing and targets ("scan EyeQ Smart Cones while ball is traveling," "check both options before first touch," "eyes up during breaks in play")
+- **Body shape & first touch**: open hips, receiving across body, first touch into space, protecting the ball
+- **Decision quality**: cue → action link ("Red = commit forward immediately," "Green = patience and circulation," "read the cue early to gain advantage")
+- **Communication**: teammates calling colours, verbal support, confirming decisions
+- **Tactical execution**: timing of runs, weight of pass, pressing triggers, switching play quickly
+
+Write these as actionable coaching interventions that a coach can directly reference during the session.
 
 ### 8. Progressions
-2-4 variations that maintain the same core cue system but adjust difficulty:
+2-4 variations that maintain the same core cue system but adjust difficulty or focus:
 
-- **Easier**: Fewer colours, more space, passive defenders, slower cue changes, unlimited touches
-- **Harder**: Additional defenders, tighter space, touch restrictions, faster cue changes, bonus scoring conditions, offside lines
+- **Easier**: Fewer colours, more space, passive defenders, slower cue changes, unlimited touches, longer reaction time
+- **Harder**: Additional defenders, tighter space, touch restrictions (2-touch max), faster cue changes, bonus scoring conditions (e.g., "2 points if you score within 3 seconds of light change"), offside lines, contested transitions
 
-Do NOT introduce completely new cue systems here. Build on the existing logic.
+Do NOT introduce completely new cue systems here. Build on the existing logic. Progressions should feel like natural extensions of the base drill, not entirely different activities.
+
+You may also include variations that change focus while keeping the same structure (e.g., "Award bonus point for one-touch finishes" or "Require attacking team to complete 5 passes before attempting to score").
 
 ---
 
@@ -137,6 +212,8 @@ Do NOT introduce completely new cue systems here. Build on the existing logic.
 ❌ Creating drills where players just stand and wait for lights
 ❌ Losing the original tactical theme in translation
 ❌ Writing instructions only an engineer could decode
+❌ Using EyeQ Smart Cones where Standard Plastic Cones would suffice
+❌ Creating drills that require expensive or unavailable equipment
 
 ---
 
